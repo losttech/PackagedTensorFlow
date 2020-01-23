@@ -1,7 +1,4 @@
-# Starter pipeline
-# Start with a minimal pipeline that you can customize to build and deploy your code.
-# Add steps that build, run tests, deploy, and more:
-# https://aka.ms/yaml
+name: '$(Date:yyyyMMdd)$(Rev:-rr)'
 
 trigger: none
 # - master
@@ -10,35 +7,29 @@ pool:
   vmImage: 'windows-2019'
 
 steps:
-- task: CondaEnvironment@0
+- task: DotNetCoreCLI@2
   inputs:
-    environmentName: 'py37'
-    packageSpecs: 'python=3.7'
-    cleanEnvironment: true
-- task: CmdLine@2
+    command: 'restore'
+    projects: '**/*.csproj'
+    feedsToUse: 'select'
+    vstsFeed: '6ea7f709-397d-481c-a895-bf3cf16ec737'
+- task: DotNetCoreCLI@2
   inputs:
-    script: |
-      call activate.bat base
-      conda create -y --prefix $(Build.BinariesDirectory)/CTF python=3.7
-- task: CmdLine@2
+    command: 'build'
+    projects: '**/*.csproj'
+- task: DotNetCoreCLI@2
   inputs:
-    script: |
-      call activate.bat $(Build.BinariesDirectory)/CTF
-      $(Build.BinariesDirectory)/CTF/python.exe -m pip install "tensorflow==1.15.*"
-- task: PowerShell@2
+    command: 'test'
+    projects: 'test/**/*.csproj'
+- task: DotNetCoreCLI@2
   inputs:
-    targetType: 'inline'
-    script: |
-      cd $(Build.BinariesDirectory)/CTF
-      ls *.pyc | rm
-      ls *.lib | rm
-      ls *.so | rm
-- task: ArchiveFiles@2
+    command: 'custom'
+    projects: 'src/**/*.csproj'
+    custom: 'pack'
+    arguments: '--version-suffix CI-$(Build.BuildNumber) -o $(Build.ArtifactStagingDirectory)'
+- task: NuGetCommand@2
   inputs:
-    rootFolderOrFile: '$(Build.BinariesDirectory)/CTF'
-    includeRootFolder: false
-    archiveType: '7z'
-    sevenZipCompression: 'ultra'
-    archiveFile: '$(Build.ArtifactStagingDirectory)/ptf-win64-$(Build.BuildId).7z'
-    replaceExistingArchive: true
-- task: PublishBuildArtifacts@1
+    command: 'push'
+    packagesToPush: '$(Build.ArtifactStagingDirectory)/**/*.nupkg;!$(Build.ArtifactStagingDirectory)/**/*.symbols.nupkg'
+    nuGetFeedType: 'internal'
+    publishVstsFeed: '6ea7f709-397d-481c-a895-bf3cf16ec737'

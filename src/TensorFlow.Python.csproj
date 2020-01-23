@@ -7,6 +7,10 @@
     <Nullable>enable</Nullable>
     <AssemblyName>LostTech.TensorFlow.Python</AssemblyName>
     <RootNamespace>LostTech.TensorFlow</RootNamespace>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <PackageId>LostTech.TensorFlow.Python</PackageId>
     <Version>0.0.15</Version>
     <Authors>Victor Milovanov</Authors>
     <Company>Lost Tech LLC</Company>
