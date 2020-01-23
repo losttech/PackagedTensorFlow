@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <AssemblyName>LostTech.TensorFlow.Python</AssemblyName>
+    <RootNamespace>LostTech.TensorFlow</RootNamespace>
+    <Version>0.0.15</Version>
+    <Authors>Victor Milovanov</Authors>
+    <Company>Lost Tech LLC</Company>
+    <Product>TensorFlow</Product>
+    <Copyright>© Lost Tech LLC 2020</Copyright>
+    <PackageProjectUrl>https://github.com/losttech/PackagedTensorFlow</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/losttech/PackagedTensorFlow.git</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>TensorFlow</PackageTags>
+  </PropertyGroup>
+
+</Project>
