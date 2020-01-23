@@ -1,7 +1,4 @@
-# Starter pipeline
-# Start with a minimal pipeline that you can customize to build and deploy your code.
-# Add steps that build, run tests, deploy, and more:
-# https://aka.ms/yaml
+name: '$(Date:yyyyMMdd)$(Rev:-rr)'
 
 trigger: none
 # - master
@@ -39,6 +36,17 @@ steps:
     includeRootFolder: false
     archiveType: '7z'
     sevenZipCompression: 'ultra'
-    archiveFile: '$(Build.ArtifactStagingDirectory)/ptf-win64-$(Build.BuildId).7z'
+    archiveFile: '$(Build.BinariesDirectory)/ptf-win64.7z'
     replaceExistingArchive: true
-- task: PublishBuildArtifacts@1
+- task: DotNetCoreCLI@2
+  inputs:
+    command: 'custom'
+    projects: '**/*.csproj'
+    custom: 'pack'
+    arguments: '--version-suffix CI-$(Build.BuildNumber) -p:PackagedEnv=$(Build.BinariesDirectory)/ptf-win64.7z -o $(Build.ArtifactStagingDirectory)'
+- task: NuGetCommand@2
+  inputs:
+    command: 'push'
+    packagesToPush: '$(Build.ArtifactStagingDirectory)/**/*.nupkg;!$(Build.ArtifactStagingDirectory)/**/*.symbols.nupkg'
+    nuGetFeedType: 'internal'
+    publishVstsFeed: '6ea7f709-397d-481c-a895-bf3cf16ec737'
