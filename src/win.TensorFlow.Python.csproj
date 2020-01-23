@@ -13,7 +13,7 @@
 
   <PropertyGroup>
     <PackageId>runtime.win-x64.LostTech.TensorFlow.Python</PackageId>
-    <VersionPrefix>1.15</VersionPrefix>
+    <VersionPrefix>0.1.15</VersionPrefix>
     <Authors>Victor Milovanov</Authors>
     <Company>Lost Tech LLC</Company>
     <Product>TensorFlow</Product>
