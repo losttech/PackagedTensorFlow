@@ -1,5 +1,8 @@
 name: '$(Date:yyyyMMdd)$(Rev:-rr)'
 
+variables:
+  archiveName: TensorFlow.tar.xz
+
 trigger: none
 # - master
 
@@ -34,16 +37,16 @@ steps:
   inputs:
     rootFolderOrFile: '$(Build.BinariesDirectory)/CTF'
     includeRootFolder: false
-    archiveType: '7z'
-    sevenZipCompression: 'ultra'
-    archiveFile: '$(Build.BinariesDirectory)/ptf-win64.7z'
+    archiveType: 'tar'
+    tarCompression: 'xz'
+    archiveFile: '$(Build.BinariesDirectory)/$(archiveName)'
     replaceExistingArchive: true
 - task: DotNetCoreCLI@2
   inputs:
     command: 'custom'
     projects: '**/*.csproj'
     custom: 'pack'
-    arguments: '--version-suffix CI-$(Build.BuildNumber) -p:PackagedEnv=$(Build.BinariesDirectory)/ptf-win64.7z -o $(Build.ArtifactStagingDirectory)'
+    arguments: '--version-suffix CI-$(Build.BuildNumber) -p:PackagedEnv=$(Build.BinariesDirectory)/$(archiveName) -o $(Build.ArtifactStagingDirectory)'
 - task: NuGetCommand@2
   inputs:
     command: 'push'
