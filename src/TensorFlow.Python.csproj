@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <RuntimeIdentifiers>win-x64</RuntimeIdentifiers>
     <LangVersion>8.0</LangVersion>
     <Nullable>enable</Nullable>
     <AssemblyName>LostTech.TensorFlow.Python</AssemblyName>
@@ -19,7 +20,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="runtime.win-x64.LostTech.TensorFlow.Python" Version="1.15.0-CI-20200122-03" />
+    <PackageReference Include="runtime.win-x64.LostTech.TensorFlow.Python" Version="0.1.15-CI-20200122-04" />
     <PackageReference Include="sharpcompress" Version="0.24.0" />
     <PackageReference Include="WhichPython" Version="0.2.0-CI-20191002-000322" />
   </ItemGroup>
