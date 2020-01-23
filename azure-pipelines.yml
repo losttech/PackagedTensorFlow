@@ -10,20 +10,15 @@ pool:
   vmImage: 'windows-2019'
 
 steps:
-# - task: CondaCreate@0
-#   inputs:
-#     prefix: '$(Build.BinariesDirectory)\CTF'
-#     packages: 'python=3.7'
-- task: CmdLine@2
+- task: CondaCreate@0
   inputs:
-    script: |
-      call activate.bat base
-      conda create -y --prefix $(Build.BinariesDirectory)/CTF python=3.7
+    prefix: '$(Build.BinariesDirectory)\CTF'
+    packages: 'python=3.7'
 - task: CmdLine@2
   inputs:
     script: |
       call activate.bat $(Build.BinariesDirectory)/CTF
-            $(Build.BinariesDirectory)/CTF/python.exe -m pip install "tensorflow==1.15.*"
+      $(Build.BinariesDirectory)/CTF/python.exe -m pip install "tensorflow==1.15.*"
 - task: PowerShell@2
   inputs:
     targetType: 'inline'
