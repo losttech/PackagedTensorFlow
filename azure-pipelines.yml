@@ -10,10 +10,16 @@ pool:
   vmImage: 'windows-2019'
 
 steps:
-- task: CondaCreate@0
+- task: CondaEnvironment@0
   inputs:
-    prefix: '$(Build.BinariesDirectory)\CTF'
-    packages: 'python=3.7'
+    environmentName: 'py37'
+    packageSpecs: 'python=3.7'
+    cleanEnvironment: true
+- task: CmdLine@2
+  inputs:
+    script: |
+      call activate.bat base
+      conda create -y --prefix $(Build.BinariesDirectory)/CTF python=3.7
 - task: CmdLine@2
   inputs:
     script: |
