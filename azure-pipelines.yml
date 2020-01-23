@@ -38,7 +38,7 @@ steps:
     rootFolderOrFile: '$(Build.BinariesDirectory)/CTF'
     includeRootFolder: false
     archiveType: '7z'
-    sevenZipCompression: 'normal'
+    sevenZipCompression: 'ultra'
     archiveFile: '$(Build.ArtifactStagingDirectory)/ptf-win64-$(Build.BuildId).7z'
     replaceExistingArchive: true
 - task: PublishBuildArtifacts@1
