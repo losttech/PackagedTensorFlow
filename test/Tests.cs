@@ -15,8 +15,8 @@ namespace LostTech.TensorFlow {
             var deploymentTarget = new DirectoryInfo(Path.Combine(Path.GetTempPath(), "TFP", Guid.NewGuid().ToString()));
             try {
                 var environment = PackagedTensorFlow.EnsureDeployed(deploymentTarget);
-                Runtime.PythonDLL = environment.DynamicLibraryPath;
-                PythonEngine.PythonHome = environment.Home;
+                Runtime.PythonDLL = environment.DynamicLibraryPath.FullName;
+                PythonEngine.PythonHome = environment.Home.FullName;
                 PythonEngine.Initialize();
 
                 using var _ = Py.GIL();

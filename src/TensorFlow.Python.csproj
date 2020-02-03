@@ -11,7 +11,7 @@
 
   <PropertyGroup>
     <PackageId>LostTech.TensorFlow.Python</PackageId>
-    <Version>0.0.15</Version>
+    <Version>0.0.15.1</Version>
     <Authors>Victor Milovanov</Authors>
     <Company>Lost Tech LLC</Company>
     <Product>TensorFlow</Product>
@@ -26,7 +26,7 @@
   <ItemGroup>
     <PackageReference Include="runtime.win-x64.LostTech.TensorFlow.Python" Version="0.1.15-CI-20200122-04" />
     <PackageReference Include="sharpcompress" Version="0.24.0" />
-    <PackageReference Include="WhichPython" Version="0.2.0-CI-20191002-000322" />
+    <PackageReference Include="WhichPython" Version="0.3.0-CI-20200125-001" />
   </ItemGroup>
 
   <ItemGroup>

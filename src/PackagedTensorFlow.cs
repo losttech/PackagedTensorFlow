@@ -43,10 +43,10 @@
             var version = new Version(3, 7);
             return new PythonEnvironment(
                 // TODO: support non-Windows
-                interpreterPath: interpreterPath,
-                home: target.FullName,
+                interpreterPath: new FileInfo(interpreterPath),
+                home: target,
                 // TODO: support non-Windows
-                dll: Path.Combine(target.FullName, Invariant($"python{version.Major}{version.Minor}.dll")),
+                dll: new FileInfo(Path.Combine(target.FullName, Invariant($"python{version.Major}{version.Minor}.dll"))),
                 languageVersion: version,
                 Architecture.X64);
         }
