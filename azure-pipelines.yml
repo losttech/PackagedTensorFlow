@@ -8,26 +8,31 @@ pool:
 
 steps:
 - task: DotNetCoreCLI@2
+  displayName: 'Restore'
   inputs:
     command: 'restore'
     projects: '**/*.csproj'
     feedsToUse: 'select'
     vstsFeed: '6ea7f709-397d-481c-a895-bf3cf16ec737'
 - task: DotNetCoreCLI@2
+  displayName: 'Build'
   inputs:
     command: 'build'
     projects: '**/*.csproj'
 - task: DotNetCoreCLI@2
+  displayName: 'Test'
   inputs:
     command: 'test'
     projects: 'test/**/*.csproj'
 - task: DotNetCoreCLI@2
+  displayName: 'Pack'
   inputs:
     command: 'custom'
     projects: 'src/**/*.csproj'
     custom: 'pack'
     arguments: '--version-suffix CI-$(Build.BuildNumber) -o $(Build.ArtifactStagingDirectory)'
 - task: NuGetCommand@2
+  displayName: 'Push'
   inputs:
     command: 'push'
     packagesToPush: '$(Build.ArtifactStagingDirectory)/**/*.nupkg;!$(Build.ArtifactStagingDirectory)/**/*.symbols.nupkg'
