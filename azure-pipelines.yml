@@ -7,7 +7,7 @@ trigger: none
 # - master
 
 pool:
-  vmImage: 'windows-2019'
+  vmImage: 'ubuntu-18.04'
 
 steps:
 - task: CondaEnvironment@0
@@ -15,24 +15,24 @@ steps:
     environmentName: 'py37'
     packageSpecs: 'python=3.7'
     cleanEnvironment: true
-- task: CmdLine@2
+- task: PowerShell@2
   inputs:
     script: |
-      call activate.bat base
+      conda activate base
       conda create -y --prefix $(Build.BinariesDirectory)/CTF python=3.7
-- task: CmdLine@2
+- task: PowerShell@2
   inputs:
     script: |
-      call activate.bat $(Build.BinariesDirectory)/CTF
-      $(Build.BinariesDirectory)/CTF/python.exe -m pip install "tensorflow==1.15.*" mlagents-envs
+      conda activate $(Build.BinariesDirectory)/CTF
+      $(Build.BinariesDirectory)/CTF/python -m pip install "tensorflow==1.15.*" mlagents-envs
 - task: PowerShell@2
   inputs:
     targetType: 'inline'
     script: |
       cd $(Build.BinariesDirectory)/CTF
-      ls *.pyc -Recurse | rm
-      ls *.lib -Recurse | rm
-      ls *.so -Recurse | rm
+      Get-ChildItem *.pyc -Recurse | Remove-Item
+      Get-ChildItem *.a -Recurse | Remove-Item
+      Get-ChildItem *.o -Recurse | Remove-Item
 - task: ArchiveFiles@2
   inputs:
     rootFolderOrFile: '$(Build.BinariesDirectory)/CTF'

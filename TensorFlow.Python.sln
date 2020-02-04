@@ -10,7 +10,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Repo", "Repo", "{FB4287B3-5
 		LICENSE = LICENSE
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "win.TensorFlow.Python", "src\win.TensorFlow.Python.csproj", "{72F2AE35-0A3E-43B2-B103-2AE4AF080C0E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "lin.TensorFlow.Python", "src\lin.TensorFlow.Python.csproj", "{72F2AE35-0A3E-43B2-B103-2AE4AF080C0E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
