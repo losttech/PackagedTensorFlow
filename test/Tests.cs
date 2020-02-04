@@ -13,19 +13,15 @@ namespace LostTech.TensorFlow {
         [Test]
         public void EnsureCanGetTensorFlow() {
             var deploymentTarget = new DirectoryInfo(Path.Combine(Path.GetTempPath(), "TFP", Guid.NewGuid().ToString()));
-            try {
-                var environment = PackagedTensorFlow.EnsureDeployed(deploymentTarget);
-                Runtime.PythonDLL = environment.DynamicLibraryPath.FullName;
-                PythonEngine.PythonHome = environment.Home.FullName;
-                PythonEngine.Initialize();
+            var environment = PackagedTensorFlow.EnsureDeployed(deploymentTarget);
+            Runtime.PythonDLL = environment.DynamicLibraryPath.FullName;
+            PythonEngine.PythonHome = environment.Home.FullName;
+            PythonEngine.Initialize();
 
-                using var _ = Py.GIL();
-                dynamic tf = Py.Import("tensorflow");
-                Console.WriteLine(tf.__version__);
-            } finally {
-                if (deploymentTarget.Exists)
-                    deploymentTarget.Delete(recursive: true);
-            }
+            using var _ = Py.GIL();
+            dynamic tf = Py.Import("tensorflow");
+            Console.WriteLine(tf.__version__);
+            tf.set_random_seed(42);
         }
     }
 }
