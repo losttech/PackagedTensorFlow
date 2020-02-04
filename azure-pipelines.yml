@@ -32,7 +32,6 @@ steps:
       cd $(Build.BinariesDirectory)/CTF
       ls *.pyc -Recurse | rm
       ls *.lib -Recurse | rm
-      ls *.so -Recurse | rm
 - task: ArchiveFiles@2
   inputs:
     rootFolderOrFile: '$(Build.BinariesDirectory)/CTF'
