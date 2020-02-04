@@ -11,7 +11,7 @@
 
   <PropertyGroup>
     <PackageId>LostTech.TensorFlow.Python</PackageId>
-    <Version>0.0.15.4</Version>
+    <Version>0.0.15.5</Version>
     <Authors>Victor Milovanov</Authors>
     <Company>Lost Tech LLC</Company>
     <Product>TensorFlow</Product>
