@@ -10,11 +10,6 @@ pool:
   vmImage: 'ubuntu-18.04'
 
 steps:
-- task: CondaEnvironment@0
-  inputs:
-    environmentName: 'py37'
-    packageSpecs: 'python=3.7'
-    cleanEnvironment: true
 - task: PowerShell@2
   inputs:
     script: |
