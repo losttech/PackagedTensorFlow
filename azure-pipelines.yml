@@ -11,21 +11,25 @@ pool:
 
 steps:
 - task: CondaEnvironment@0
+  displayName: Ensure Conda is installed
   inputs:
     environmentName: 'py37'
     packageSpecs: 'python=3.7'
     cleanEnvironment: true
 - task: CmdLine@2
+  displayName: Create Conda env
   inputs:
     script: |
       call activate.bat base
       conda create -y --prefix $(Build.BinariesDirectory)/CTF python=3.7
 - task: CmdLine@2
+  displayName: Install TensorFlow
   inputs:
     script: |
       call activate.bat $(Build.BinariesDirectory)/CTF
       $(Build.BinariesDirectory)/CTF/python.exe -m pip install "tensorflow==1.15.0" mlagents-envs
 - task: PowerShell@2
+  displayName: Remove unnecessary files
   inputs:
     targetType: 'inline'
     script: |
@@ -33,6 +37,7 @@ steps:
       ls *.pyc -Recurse | rm
       ls *.lib -Recurse | rm
 - task: ArchiveFiles@2
+  displayName: Archive Conda env
   inputs:
     rootFolderOrFile: '$(Build.BinariesDirectory)/CTF'
     includeRootFolder: false
@@ -41,12 +46,14 @@ steps:
     archiveFile: '$(Build.BinariesDirectory)/$(archiveName)'
     replaceExistingArchive: true
 - task: DotNetCoreCLI@2
+  displayName: Pack
   inputs:
     command: 'custom'
     projects: '**/*.csproj'
     custom: 'pack'
     arguments: '--version-suffix CI-$(Build.BuildNumber) -p:PackagedEnv=$(Build.BinariesDirectory)/$(archiveName) -o $(Build.ArtifactStagingDirectory)'
 - task: NuGetCommand@2
+  displayName: Push
   inputs:
     command: 'push'
     packagesToPush: '$(Build.ArtifactStagingDirectory)/**/*.nupkg;!$(Build.ArtifactStagingDirectory)/**/*.symbols.nupkg'
