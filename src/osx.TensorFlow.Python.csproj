@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <RuntimeIdentifier>linux-x64</RuntimeIdentifier>
+    <RuntimeIdentifier>osx-x64</RuntimeIdentifier>
     <TargetFramework>netstandard2.0</TargetFramework>
     <AssemblyName>LostTech.TensorFlow.Python</AssemblyName>
     <RootNamespace>LostTech.TensorFlow</RootNamespace>
@@ -12,7 +12,7 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <PackageId>runtime.linux-x64.LostTech.TensorFlow.Python</PackageId>
+    <PackageId>runtime.osx-x64.LostTech.TensorFlow.Python</PackageId>
     <VersionPrefix>0.1.15</VersionPrefix>
     <Authors>Victor Milovanov</Authors>
     <Company>Lost Tech LLC</Company>
@@ -26,7 +26,7 @@
 
   <ItemGroup>
     <Content Include="$(PackagedEnv)">
-      <PackagePath>runtimes/linux-x64/native/%(Filename)%(Extension)</PackagePath>
+      <PackagePath>runtimes/osx-x64/native/%(Filename)%(Extension)</PackagePath>
       <Pack>true</Pack>
     </Content>
   </ItemGroup>

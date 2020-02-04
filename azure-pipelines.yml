@@ -7,9 +7,12 @@ trigger: none
 # - master
 
 pool:
-  vmImage: 'ubuntu-18.04'
+  vmImage: 'macOS-10.15'
 
 steps:
+# Required, see https://docs.microsoft.com/en-us/azure/devops/pipelines/ecosystems/anaconda?view=azure-devops&tabs=macos#add-conda-to-your-system-path
+- bash: echo "##vso[task.prependpath]$CONDA/bin"
+  displayName: Add Conda to PATH
 - script: |
     conda create -y --prefix $(Build.BinariesDirectory)/CTF python=3.7
     conda init bash
@@ -23,10 +26,10 @@ steps:
   inputs:
     targetType: 'inline'
     script: |
-      cd $(Build.BinariesDirectory)/CTF
-      Get-ChildItem *.pyc -Recurse | Remove-Item
-      Get-ChildItem *.a -Recurse | Remove-Item
-      Get-ChildItem *.o -Recurse | Remove-Item
+      Set-Location $(Build.BinariesDirectory)/CTF
+      Get-ChildItem *.pyc -Recurse | Remove-Item -Force
+      Get-ChildItem *.a -Recurse | Remove-Item -Force
+      Get-ChildItem *.o -Recurse | Remove-Item -Force
 - task: ArchiveFiles@2
   displayName: Archive Conda env
   inputs:
