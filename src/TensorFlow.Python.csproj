@@ -24,6 +24,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="LostTech.IO.Links" Version="0.0.3" />
     <PackageReference Include="runtime.win-x64.LostTech.TensorFlow.Python" Version="0.1.15-CI-20200123-01" />
     <PackageReference Include="runtime.linux-x64.LostTech.TensorFlow.Python" Version="0.1.15-CI-20200203-09" />
     <PackageReference Include="sharpcompress" Version="0.24.0" />
