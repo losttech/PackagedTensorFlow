@@ -21,6 +21,7 @@
     <RepositoryType>git</RepositoryType>
     <PackageTags>TensorFlow</PackageTags>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <Description>Provides pre-packaged TensorFlow runtime. Simply call LostTech.TensorFlow.PackagedTensorFlow.EnsureDeployed(...).</Description>
   </PropertyGroup>
 
   <ItemGroup>
