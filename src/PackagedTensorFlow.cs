@@ -16,13 +16,12 @@
         static readonly string AssemblyPath = Assembly.GetExecutingAssembly().Location;
         static readonly string AssemblyDirectory = Path.GetDirectoryName(AssemblyPath);
         public static PythonEnvironment EnsureDeployed(DirectoryInfo target) {
-            if (target == null) throw new ArgumentNullException(nameof(target));
+            if (target is null) throw new ArgumentNullException(nameof(target));
+            if (IsNested(root: target.FullName, item: AssemblyPath))
+                throw new ArgumentException("Can not deploy over this assembly");
 
             if (ProcessArchitecture != Architecture.X64)
                 throw new PlatformNotSupportedException(ProcessArchitecture.ToString());
-
-            if (target.Exists && target.EnumerateFileSystemInfos().Any())
-                throw new InvalidOperationException("Target directory must be empty");
 
             string platform = IsOSPlatform(Windows) ? "win"
                 : IsOSPlatform(Linux) ? "linux"
@@ -52,6 +51,8 @@
             string dllName = IsOSPlatform(Windows)
                 ? Invariant($"python{version.Major}{version.Minor}.dll")
                 : Path.Combine("lib", Invariant($"libpython{version.Major}.{version.Minor}m{DynamicLibraryExtension}"));
+
+            target.Refresh();
 
             return new PythonEnvironment(
                 // TODO: support non-Windows
