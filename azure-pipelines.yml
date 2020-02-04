@@ -24,7 +24,7 @@ steps:
   inputs:
     script: |
       call activate.bat $(Build.BinariesDirectory)/CTF
-      $(Build.BinariesDirectory)/CTF/python.exe -m pip install "tensorflow==1.15.*" mlagents-envs
+      $(Build.BinariesDirectory)/CTF/python.exe -m pip install "tensorflow==1.15.0" mlagents-envs
 - task: PowerShell@2
   inputs:
     targetType: 'inline'
