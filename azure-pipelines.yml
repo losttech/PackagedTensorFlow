@@ -19,7 +19,7 @@ steps:
   displayName: Create Conda env
 - script: |
     conda activate $(Build.BinariesDirectory)/CTF
-    $(Build.BinariesDirectory)/CTF/bin/python -m pip install "tensorflow==1.15.0" mlagents-envs
+    $(Build.BinariesDirectory)/CTF/bin/python -m pip install "tensorflow==$(TensorFlow_Version)" "mlagents-envs==$(MLAgents_Envs_Version)"
   displayName: Install TensorFlow
 - task: PowerShell@2
   displayName: Remove unnecessary files
