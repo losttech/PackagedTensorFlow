@@ -4,10 +4,7 @@
     using System.Linq;
     using System.Reflection;
     using System.Runtime.InteropServices;
-    using LostTech.IO.Links;
     using LostTech.WhichPython;
-    using SharpCompress.Common;
-    using SharpCompress.Readers;
     using static System.FormattableString;
     using static System.Runtime.InteropServices.OSPlatform;
     using static System.Runtime.InteropServices.RuntimeInformation;
@@ -17,7 +14,7 @@
         static readonly string AssemblyDirectory = Path.GetDirectoryName(AssemblyPath);
         public static PythonEnvironment EnsureDeployed(DirectoryInfo target) {
             if (target is null) throw new ArgumentNullException(nameof(target));
-            if (IsNested(root: target.FullName, item: AssemblyPath))
+            if (PathEx.IsNested(root: target.FullName, item: AssemblyPath))
                 throw new ArgumentException("Can not deploy over this assembly");
 
             if (ProcessArchitecture != Architecture.X64)
@@ -42,8 +39,7 @@
 
             string interpreterPath = Path.Combine(target.FullName, relativeInterpreterPath);
             // TODO: more robust detection
-            if (!File.Exists(interpreterPath))
-                Extract(archivePath, target.FullName);
+            if (!File.Exists(interpreterPath)) Archive.Extract(archivePath, target.FullName);
 
             // TODO: detect Python version
             var version = new Version(3, 7);
@@ -68,67 +64,5 @@
             IsOSPlatform(Windows) ? ".dll"
             : IsOSPlatform(OSX) ? ".dylib"
             : ".so";
-
-        static void Extract(string archive, string target) {
-            const bool overwrite = true;
-
-            void WriteSymbolicLink(string symlink, string pointTo) {
-                if (Path.IsPathRooted(pointTo))
-                    throw new UnauthorizedAccessException();
-                pointTo = Path.Combine(Path.GetDirectoryName(symlink), pointTo);
-                pointTo = Path.GetFullPath(pointTo);
-
-                if (!IsNested(target, symlink))
-                    throw new UnauthorizedAccessException();
-
-                if (overwrite) {
-                    if (File.Exists(symlink)) File.Delete(symlink);
-                    if (Directory.Exists(symlink)) Directory.Delete(symlink);
-                }
-
-                if (File.Exists(pointTo)) {
-                    Symlink.CreateForFile(filePath: pointTo, symlink: symlink);
-                } else if (Directory.Exists(pointTo)) {
-                    Symlink.CreateForDirectory(directoryPath: pointTo, symlink: symlink);
-                } else {
-                    Directory.CreateDirectory(pointTo);
-                    try {
-                        Symlink.CreateForDirectory(directoryPath: pointTo, symlink: symlink);
-                    } finally {
-                        Directory.Delete(pointTo);
-                    }
-                }
-            }
-
-            var options = new ExtractionOptions {
-                ExtractFullPath = true,
-                Overwrite = overwrite,
-                WriteSymbolicLink = WriteSymbolicLink,
-            };
-            using var stream = File.OpenRead(archive);
-            using var reader = ReaderFactory.Open(stream);
-            while (reader.MoveToNextEntry()) {
-                if (reader.Entry.IsDirectory) continue;
-
-                reader.WriteEntryToDirectory(target, options);
-            }
-        }
-
-        static bool IsNested(string root, string item) {
-            if (root is null) throw new ArgumentNullException(nameof(root));
-            if (item is null) throw new ArgumentNullException(nameof(item));
-
-            root = Path.GetFullPath(root);
-            item = Path.GetFullPath(item);
-
-            while (true) {
-                string directory = Path.GetDirectoryName(item);
-                if (directory is null) return false;
-                if (directory.Length >= item.Length) return false;
-                if (directory == root) return true;
-
-                item = directory;
-            }
-        }
     }
 }
