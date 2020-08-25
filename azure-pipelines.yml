@@ -1,8 +1,5 @@
 name: '$(Date:yyyyMMdd)$(Rev:-rr)'
 
-variables:
-  archiveName: TensorFlow.tar.xz
-
 trigger: none
 # - master
 
@@ -27,22 +24,13 @@ steps:
       Get-ChildItem *.pyc -Recurse | Remove-Item
       Get-ChildItem *.a -Recurse | Remove-Item
       Get-ChildItem *.o -Recurse | Remove-Item
-- task: ArchiveFiles@2
-  displayName: Archive Conda env
-  inputs:
-    rootFolderOrFile: '$(Build.BinariesDirectory)/CTF'
-    includeRootFolder: false
-    archiveType: 'tar'
-    tarCompression: 'xz'
-    archiveFile: '$(Build.BinariesDirectory)/$(archiveName)'
-    replaceExistingArchive: true
 - task: DotNetCoreCLI@2
   displayName: Pack
   inputs:
     command: 'custom'
     projects: '**/*.csproj'
     custom: 'pack'
-    arguments: '--version-suffix CI-$(Build.BuildNumber) -p:PackagedEnv=$(Build.BinariesDirectory)/$(archiveName) -o $(Build.ArtifactStagingDirectory)'
+    arguments: '--version-suffix CI-$(Build.BuildNumber) -p:PackagedEnv=$(Build.BinariesDirectory)/CTF -o $(Build.ArtifactStagingDirectory)'
 - task: NuGetCommand@2
   displayName: Push
   inputs:

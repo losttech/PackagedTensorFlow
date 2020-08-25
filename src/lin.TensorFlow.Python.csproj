@@ -25,10 +25,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Include="$(PackagedEnv)">
-      <PackagePath>runtimes/linux-x64/native/%(Filename)%(Extension)</PackagePath>
+    <None Include="$(PackagedEnv)/**" Condition="'$(PackagedEnv)' != ''">
+      <PackagePath>runtimes/linux-x64/native/%(RecursiveDir)%(Filename)%(Extension)</PackagePath>
       <Pack>true</Pack>
-    </Content>
+    </None>
   </ItemGroup>
 
 </Project>
