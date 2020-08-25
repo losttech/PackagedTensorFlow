@@ -3,8 +3,17 @@ name: '$(Date:yyyyMMdd)$(Rev:-rr)'
 trigger: none
 # - master
 
+strategy:
+  matrix:
+    Linux:
+      imageName: 'ubuntu-18.04'
+    MacOS:
+      imageName: 'macos-10.14'
+    Windows:
+      imageName: 'vs2017-win2016'
+
 pool:
-  vmImage: 'windows-2019'
+  vmImage: $(imageName)
 
 steps:
 - task: DotNetCoreCLI@2
@@ -26,6 +35,7 @@ steps:
     projects: 'test/**/*.csproj'
 - task: DotNetCoreCLI@2
   displayName: 'Pack'
+  condition: and(succeeded(), eq(variables['imageName'], 'vs2017-win2016'))
   inputs:
     command: 'custom'
     projects: 'src/**/*.csproj'
@@ -33,6 +43,7 @@ steps:
     arguments: '--version-suffix CI-$(Build.BuildNumber) -o $(Build.ArtifactStagingDirectory)'
 - task: NuGetCommand@2
   displayName: 'Push'
+  condition: and(succeeded(), eq(variables['imageName'], 'vs2017-win2016'))
   inputs:
     command: 'push'
     packagesToPush: '$(Build.ArtifactStagingDirectory)/**/*.nupkg;!$(Build.ArtifactStagingDirectory)/**/*.symbols.nupkg'
