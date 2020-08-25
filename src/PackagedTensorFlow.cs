@@ -73,6 +73,11 @@
             const bool overwrite = true;
 
             void WriteSymbolicLink(string symlink, string pointTo) {
+                if (Path.IsPathRooted(pointTo))
+                    throw new UnauthorizedAccessException();
+                pointTo = Path.Combine(Path.GetDirectoryName(symlink), pointTo);
+                pointTo = Path.GetFullPath(pointTo);
+
                 if (!IsNested(target, symlink))
                     throw new UnauthorizedAccessException();
 
