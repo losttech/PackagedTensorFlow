@@ -5,6 +5,7 @@
     using System.Reflection;
     using System.Runtime.InteropServices;
     using LostTech.WhichPython;
+    using Microsoft.Extensions.DependencyModel;
     using static System.FormattableString;
     using static System.Runtime.InteropServices.OSPlatform;
     using static System.Runtime.InteropServices.RuntimeInformation;
@@ -25,8 +26,18 @@
                 : IsOSPlatform(OSX) ? "osx"
                 : throw new PlatformNotSupportedException();
 
-            string archivePath = Path.Combine(AssemblyDirectory,
-                "runtimes", platform + "-x64", "native", "TensorFlow.tar.xz");
+            var runtimeLibrary = DependencyContext.Default.RuntimeLibraries
+                .Single(lib => lib.Type == "package" && lib.Name == $"LostTech.TensorFlow.Python.runtime.{platform}-x64");
+            string? packagePath = PackageHelper.TryLocatePackage(runtimeLibrary.Path);
+            if (packagePath is null)
+                throw new PlatformNotSupportedException($"Unable to find runtime package in {nameof(DependencyContext)}");
+
+            string archivePath = runtimeLibrary.NativeLibraryGroups
+                .SelectMany(group => group.AssetPaths)
+                .Single(path => path.EndsWith("/TensorFlow.tar.xz", StringComparison.Ordinal))
+                .Replace('/', Path.DirectorySeparatorChar);
+
+            archivePath = Path.Combine(packagePath, archivePath);
             if (!File.Exists(archivePath)) {
                 throw new FileNotFoundException(
                     message: "Packaged TensorFlow was not found. Perhaps the platform is not supported.",
