@@ -24,6 +24,11 @@ steps:
       Get-ChildItem *.pyc -Recurse | Remove-Item
       Get-ChildItem *.a -Recurse | Remove-Item
       Get-ChildItem *.o -Recurse | Remove-Item
+      Remove-Item include -Recurse
+      Remove-Item bin/python -Recurse
+      Remove-Item bin/python3 -Recurse
+      Remove-Item bin/python3.7
+      Remove-Item bin/python3.7m
 - task: DotNetCoreCLI@2
   displayName: Pack
   inputs:
