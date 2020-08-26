@@ -17,11 +17,8 @@
         static readonly string[] probeDirectories = GetDefaultProbeDirectories();
 
         static string[] GetDefaultProbeDirectories() {
-            object probeDirectories = AppDomain.CurrentDomain.GetData("PROBING_DIRECTORIES");
-
-            string? listOfDirectories = probeDirectories as string;
-
-            if (!string.IsNullOrEmpty(listOfDirectories)) {
+            if (AppDomain.CurrentDomain.GetData("PROBING_DIRECTORIES") is string listOfDirectories
+                && !string.IsNullOrEmpty(listOfDirectories)) {
                 return listOfDirectories.Split(new char[] { Path.PathSeparator }, StringSplitOptions.RemoveEmptyEntries);
             }
 
