@@ -2,6 +2,7 @@ namespace LostTech.TensorFlow {
     using System;
     using System.IO;
     using System.Linq;
+    using System.Runtime.InteropServices;
     using NUnit.Framework;
     using Python.Runtime;
 
@@ -22,6 +23,7 @@ namespace LostTech.TensorFlow {
             dynamic tf = Py.Import("tensorflow");
             Console.WriteLine(tf.__version__);
             tf.set_random_seed(42);
+            Assert.IsTrue((bool)tf.test.is_built_with_cuda() == !RuntimeInformation.IsOSPlatform(OSPlatform.OSX));
         }
     }
 }
