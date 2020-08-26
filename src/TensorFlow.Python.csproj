@@ -8,6 +8,8 @@
     <AssemblyName>LostTech.TensorFlow.Python</AssemblyName>
     <RootNamespace>LostTech.TensorFlow</RootNamespace>
 
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+
     <!-- The following is recommended for public projects -->
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <DebugSymbols>true</DebugSymbols>
