@@ -27,7 +27,7 @@ steps:
   inputs:
     script: |
       call activate.bat $(Build.BinariesDirectory)/CTF
-      $(Build.BinariesDirectory)/CTF/python.exe -m pip install "tensorflow==$(TensorFlow_Version)" "mlagents-envs==$(MLAgents_Envs_Version)"
+      $(Build.BinariesDirectory)/CTF/python.exe -m pip install "tensorflow-gpu==$(TensorFlow_Version)" "mlagents-envs==$(MLAgents_Envs_Version)"
 - task: PowerShell@2
   displayName: Remove unnecessary files
   inputs:
