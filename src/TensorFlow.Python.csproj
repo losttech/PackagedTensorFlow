@@ -38,7 +38,7 @@
     <PackageReference Include="LostTech.TensorFlow.Python.runtime.linux-x64" Version="[0.1.15.300,0.1.16)" />
     <PackageReference Include="LostTech.TensorFlow.Python.runtime.osx-x64" Version="[0.1.15.3,0.1.16)" />
     <PackageReference Include="Microsoft.Extensions.DependencyModel" Version="3.1.6" />
-    <PackageReference Include="sharpcompress" Version="0.26.0" />
+    <PackageReference Include="sharpcompress" Version="0.29.0" />
     <PackageReference Include="WhichPython" Version="0.3.0" />
     
     <!-- The following is recommended for public projects -->
